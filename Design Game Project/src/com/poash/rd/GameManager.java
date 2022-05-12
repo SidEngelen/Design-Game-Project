@@ -20,7 +20,7 @@ public class GameManager {
         PlayerVehicle vehicle = new PlayerVehicle("Sedan", 5, 70, 4);
         //Create a player object
         Player player = new Player(100, vehicle);
-        player.setName("Player");
+        player.setTag("Player");
         
         //Prepare the scenery
         Scene scene = new Scene();
@@ -28,27 +28,16 @@ public class GameManager {
         //Run a loop
         while(player.IsAlive()){
         //Generate gameobject (side objects, traffic, etc)
-            scene.GenerateNPCs();
+            scene.Execute();
         //Player is driving the car
-            Drive();
+            player.Drive();
         //Collide with other objects
             scene.Collide();
         //Repeat until health > 0
         }
       EndGame();
     }
-    private void Drive(){
-        System.out.println("\nPlayer is driving");
-        for(int i = 0; i < 10; i++){
-            try {
-                Thread.sleep(300);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.print(".");
-        }
-        System.out.println("");
-    }
+
     public void EndGame(){
         System.out.printf("Total cash accumulated : %d", cash);
 

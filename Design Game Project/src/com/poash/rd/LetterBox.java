@@ -9,7 +9,7 @@ public class LetterBox extends SideObject {
 
     @Override
     public void onCollision(GameObject other) {
-        if(other.getName().equals("Player")){
+        if(other.getTag().equals("Player")){
             Player player = (Player) other;
             if(count == 0){
                 System.out.println("#### COLLISION -> [Letterbox] Letters falling");

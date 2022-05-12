@@ -7,15 +7,25 @@ public class Player extends GameObject {
         super();
         this.health = health;
         this.vehicle = vehicle;
-        setName("Player");
     }
     public boolean IsAlive(){
         return health > 0;
     }
     public void ApplyDamage(int damage, int cash){
         health -= damage - vehicle.getStrength();
-        System.out.printf("Player health:%d\n", health < 0 ? 0 : health);
         GameManager.getInstance().AddCash(cash);
+    }
+    public void Drive(){
+        System.out.printf("\nPlayer is driving [Health:%d]\n", health < 0 ? 0 : health);
+        for(int i = 0; i < 10; i++){
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.print(".");
+        }
+        System.out.println("");
     }
     public void Acclerate(){
         vehicle.Up();

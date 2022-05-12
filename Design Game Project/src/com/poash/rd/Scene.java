@@ -7,7 +7,7 @@ public class Scene {
     private static final int SIDEOBJECT_COUNT = 2;
     private static final int TRAFFIC_COUNT = 2;
     private static final int NPC_TYPES = 2;
-    private ArrayList<TrafficCar> trafficList = new ArrayList<>();
+    private ArrayList<Vehicle> trafficList = new ArrayList<>();
     private ArrayList<SideObject> sideList = new ArrayList<>();
     private Player player;
     private Random random = new Random();
@@ -15,17 +15,14 @@ public class Scene {
     public void Start(Player player){
         this.player = player;
     }
-    public void GenerateNPCs(){
-        if(sideList.size() > 6) {
-            sideList.remove(0);
-        }
-        if(trafficList.size() > 6) {
-            trafficList.remove(0);
-        }
-        sideList.add(GenerateSideObject());
-        trafficList.add(GenerateTraffic());
+    public void Execute(){
+       
+       
+        GenerateSideObject();
+        GenerateTraffic();
         DisplaySideObjects();
         DisplayTraffic();
+        Collide();
     }
     public void Collide(){
         GameObject go = null;
@@ -41,33 +38,44 @@ public class Scene {
 
         }
         go.onCollision(player);
-        if(go != null){
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        
     }
-    private SideObject GenerateSideObject(){
+    private void GenerateSideObject(){
+        if(sideList.size() > 6) {
+            sideList.remove(0);
+        }
+        SideObject sideObject = null;
         switch(random.nextInt(SIDEOBJECT_COUNT)){
             case 0: //firehydrant
-                return new FireHydrant(5, 10);
+                sideObject = new FireHydrant(5, 10);
+                break;
             case 1: //letterbox
-                return new LetterBox(8, 13);
+                sideObject =  new LetterBox(8, 13);
+                break;
 
         }
-        return null;
+        sideList.add(sideObject);
     }
-    private TrafficCar GenerateTraffic(){
+    private void GenerateTraffic(){
+        if(trafficList.size() > 6) {
+            trafficList.remove(0);
+        }
+        Vehicle vehicle = null;
         switch(random.nextInt(TRAFFIC_COUNT)){
             case 0: //sedan
-                return new Sedan(15, 80);
+                vehicle = new Sedan(15, 80);
+                break;
             case 1: //van
-                return new Van(18, 90);
+                vehicle = new Van(18, 90);
+                break;
 
         }
-        return null;
+        trafficList.add(vehicle);
     }
     private void DisplaySideObjects(){
         System.out.println("<<<<< SIDEOBJECTS >>>>>");
@@ -77,7 +85,7 @@ public class Scene {
     }
     private void DisplayTraffic(){
         System.out.println("<<<<< TRAFFIC >>>>>");
-        for(TrafficCar obj : trafficList){
+        for(Vehicle obj : trafficList){
             System.out.println(obj.getName());
         }
     }
