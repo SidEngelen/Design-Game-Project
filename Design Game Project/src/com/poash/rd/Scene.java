@@ -16,13 +16,35 @@ public class Scene {
         this.player = player;
     }
     public void Execute(){
-       
-       
         GenerateSideObject();
         GenerateTraffic();
+        GeneratePowerups();
         DisplaySideObjects();
         DisplayTraffic();
         Collide();
+    }
+    private void CreatePowerup(int spawnIndex){
+        switch(spawnIndex){
+            case 0:
+                new HealthKit().onCollision(player);
+                break;
+        }
+    }
+    private void GeneratePowerups() {
+        int spawnIndex = random.nextInt(10);
+        switch(player.GetPlayerHealth().GetPlayerState()){
+            case HEALTHY:    if(spawnIndex < 2)
+                    CreatePowerup(0);
+                    break;
+            case INJURED:    if(spawnIndex < 4)
+                    CreatePowerup(0);
+                    break;
+            case CRITICAL:    if(spawnIndex < 8)
+                    CreatePowerup(0);
+                    break;
+            case DEAD:
+            break;
+        }
     }
     public void Collide(){
         GameObject go = null;
@@ -46,9 +68,27 @@ public class Scene {
         
     }
     private void GenerateSideObject(){
-        if(sideList.size() > 6) {
-            sideList.remove(0);
+
+        switch(player.GetPlayerHealth().GetPlayerState()){
+            case HEALTHY:
+            if(sideList.size() > 6) {
+                sideList.remove(0);
+            }
+            break;
+            case INJURED:
+            if(sideList.size() > 4) {
+                sideList.remove(0);
+            }
+            break;
+            case CRITICAL:
+            if(sideList.size() > 2) {
+                sideList.remove(0);
+            }
+            break;
+            case DEAD:
+            break;
         }
+        
         SideObject sideObject = null;
         switch(random.nextInt(SIDEOBJECT_COUNT)){
             case 0: //firehydrant
@@ -62,8 +102,24 @@ public class Scene {
         sideList.add(sideObject);
     }
     private void GenerateTraffic(){
-        if(trafficList.size() > 6) {
-            trafficList.remove(0);
+        switch(player.GetPlayerHealth().GetPlayerState()){
+            case HEALTHY:
+            if(trafficList.size() > 6) {
+                trafficList.remove(0);
+            }
+            break;
+            case INJURED:
+            if(trafficList.size() > 4) {
+                trafficList.remove(0);
+            }
+            break;
+            case CRITICAL:
+            if(trafficList.size() > 2) {
+                trafficList.remove(0);
+            }
+            break;
+            case DEAD:
+            break;
         }
         Vehicle vehicle = null;
         switch(random.nextInt(TRAFFIC_COUNT)){

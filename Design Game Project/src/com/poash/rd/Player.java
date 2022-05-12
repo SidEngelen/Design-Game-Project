@@ -3,6 +3,8 @@ package com.poash.rd;
 public class Player extends GameObject {
     private PlayerHealth playerHealth = new PlayerHealth();
     private PlayerVehicle vehicle;
+    private Powerup powerup = new NoPowerup();
+ 
     public Player(int health, PlayerVehicle vehicle) {
         super();
         playerHealth.SetUnits(health);
@@ -12,9 +14,8 @@ public class Player extends GameObject {
         return playerHealth.GetPlayerState() != PlayerState.DEAD;
     }
     public void ApplyDamage(int damage, int cash){
-        int newHealth = playerHealth.GetUnits() - damage - vehicle.getStrength();
-        playerHealth.SetUnits(newHealth);
-        GameManager.getInstance().AddCash(cash);
+        powerup.ApplyPowerup(this, damage, cash);
+       
     }
     public void Drive(){
         System.out.printf("\nPlayer is driving [Health:%d]\n", playerHealth.GetUnits());
@@ -38,5 +39,11 @@ public class Player extends GameObject {
         vehicle.Left();
     }public void SteerRight(){
         vehicle.Right();
+    }
+    public PlayerHealth GetPlayerHealth(){
+        return playerHealth;
+    }
+    public PlayerVehicle GetPlayerVehicle(){
+        return vehicle;
     }
 }
