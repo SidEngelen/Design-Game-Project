@@ -40,6 +40,7 @@ public class GameManager {
 
     public void EndGame(){
         System.out.printf("Total cash accumulated : %d", cash);
+        System.out.println("");
 
     }
     

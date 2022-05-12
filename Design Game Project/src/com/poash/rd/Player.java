@@ -1,22 +1,23 @@
 package com.poash.rd;
 
 public class Player extends GameObject {
-    private int health;
+    private PlayerHealth playerHealth = new PlayerHealth();
     private PlayerVehicle vehicle;
     public Player(int health, PlayerVehicle vehicle) {
         super();
-        this.health = health;
+        playerHealth.SetUnits(health);
         this.vehicle = vehicle;
     }
     public boolean IsAlive(){
-        return health > 0;
+        return playerHealth.GetPlayerState() != PlayerState.DEAD;
     }
     public void ApplyDamage(int damage, int cash){
-        health -= damage - vehicle.getStrength();
+        int newHealth = playerHealth.GetUnits() - damage - vehicle.getStrength();
+        playerHealth.SetUnits(newHealth);
         GameManager.getInstance().AddCash(cash);
     }
     public void Drive(){
-        System.out.printf("\nPlayer is driving [Health:%d]\n", health < 0 ? 0 : health);
+        System.out.printf("\nPlayer is driving [Health:%d]\n", playerHealth.GetUnits());
         for(int i = 0; i < 10; i++){
             try {
                 Thread.sleep(300);
