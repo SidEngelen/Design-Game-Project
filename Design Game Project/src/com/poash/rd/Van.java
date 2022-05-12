@@ -3,10 +3,15 @@ package com.poash.rd;
 public  class Van extends TrafficCar {
     public Van(int damage, int cash){
         super(damage, cash);
+        setName("Van");
     }
      @Override
      public void onCollision(GameObject other) {
-         // TODO Auto-generated method stub
-         super.onCollision(other);
+        if(other.getName().equals("Player")){
+            Player player = (Player) other;
+              System.out.println("#### COLLISION -> [Van] Milk bottles falling");
+              player.ApplyDamage(getDamage(), getCash());
+            
+        }
      }
 }
