@@ -18,7 +18,7 @@ public class Player extends GameObject {
        
     }
     public void Drive(){
-        System.out.printf("\nPlayer is driving [Health:%d]\n", playerHealth.GetUnits());
+        System.out.printf("\nPlayer is driving [Health:%d][%s]\n", playerHealth.GetUnits(), powerup);
         for(int i = 0; i < 10; i++){
             try {
                 Thread.sleep(300);
@@ -45,5 +45,11 @@ public class Player extends GameObject {
     }
     public PlayerVehicle GetPlayerVehicle(){
         return vehicle;
+    }
+    public void SetPowerup(Powerup p){
+        powerup = p;
+    }
+    public Powerup GetPowerup(){
+        return powerup;
     }
 }

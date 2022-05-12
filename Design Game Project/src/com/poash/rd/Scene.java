@@ -24,27 +24,35 @@ public class Scene {
         Collide();
     }
     private void CreatePowerup(int spawnIndex){
+        if(spawnIndex != 0 && player.GetPowerup().IsActive())
+            return;
         switch(spawnIndex){
             case 0:
                 new HealthKit().onCollision(player);
                 break;
+            case 1:
+                new Armor().onCollision(player);
+                break;
         }
     }
     private void GeneratePowerups() {
-        int spawnIndex = random.nextInt(10);
+        int spawnIndex = 0;
         switch(player.GetPlayerHealth().GetPlayerState()){
-            case HEALTHY:    if(spawnIndex < 2)
-                    CreatePowerup(0);
+            case HEALTHY:   
+                spawnIndex = random.nextInt(10); 
                     break;
-            case INJURED:    if(spawnIndex < 4)
-                    CreatePowerup(0);
+            case INJURED:    
+                spawnIndex = random.nextInt(6); 
                     break;
-            case CRITICAL:    if(spawnIndex < 8)
-                    CreatePowerup(0);
+            case CRITICAL:    
+                spawnIndex = random.nextInt(3); 
                     break;
             case DEAD:
+                spawnIndex = 100;
             break;
         }
+        if(spawnIndex < Powerup.POWERUP_COUNT)
+                    CreatePowerup(spawnIndex);
     }
     public void Collide(){
         GameObject go = null;

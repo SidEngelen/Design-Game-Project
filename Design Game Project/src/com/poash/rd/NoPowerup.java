@@ -8,5 +8,9 @@ public class NoPowerup extends Powerup {
         player.GetPlayerHealth().SetUnits(newHealth);
         GameManager.getInstance().AddCash(cash);
     }
+    @Override
+    public boolean IsActive(){
+        return false;
+    }
     
 }
