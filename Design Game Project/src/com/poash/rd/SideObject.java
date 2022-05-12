@@ -1,7 +1,9 @@
 package com.poash.rd;
 
 public class SideObject extends GameObject {
-
+    private int damage;
+    private int cash;
+    private int count;
     public int getDamage() {
         return this.damage;
     }
@@ -25,7 +27,5 @@ public class SideObject extends GameObject {
         count = 0;
     }
 
-    private int damage;
-    private int cash;
-    private int count;
+ 
 }
