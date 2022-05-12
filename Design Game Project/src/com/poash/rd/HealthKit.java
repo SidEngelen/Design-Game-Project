@@ -18,5 +18,5 @@ public class HealthKit extends Powerup {
             p.GetPlayerHealth().SetUnits(newHealth);
         }
     }
-    
+
 }
