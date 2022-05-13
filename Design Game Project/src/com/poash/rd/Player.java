@@ -3,7 +3,7 @@ package com.poash.rd;
 public class Player extends GameObject {
     private PlayerHealth playerHealth = new PlayerHealth();
     private PlayerVehicle vehicle;
-    private Powerup powerup = new NoPowerup();
+    private Powerup powerup = PowerupFactory.CreatePowerup(-1);
  
     public Player(int health, PlayerVehicle vehicle) {
         super();

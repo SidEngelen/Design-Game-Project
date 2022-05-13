@@ -24,16 +24,7 @@ public class Scene {
         Collide();
     }
     private void CreatePowerup(int spawnIndex){
-        if(spawnIndex != 0 && player.GetPowerup().IsActive())
-            return;
-        switch(spawnIndex){
-            case 0:
-                new HealthKit().onCollision(player);
-                break;
-            case 1:
-                new Armor().onCollision(player);
-                break;
-        }
+       
     }
     private void GeneratePowerups() {
         int spawnIndex = 0;
@@ -52,7 +43,9 @@ public class Scene {
             break;
         }
         if(spawnIndex < Powerup.POWERUP_COUNT)
-                    CreatePowerup(spawnIndex);
+            if(spawnIndex != 0 && player.GetPowerup().IsActive())
+            return;
+            PowerupFactory.CreatePowerup(spawnIndex).onCollision(player);
     }
     public void Collide(){
         GameObject go = null;
@@ -97,17 +90,7 @@ public class Scene {
             break;
         }
         
-        SideObject sideObject = null;
-        switch(random.nextInt(SIDEOBJECT_COUNT)){
-            case 0: //firehydrant
-                sideObject = new FireHydrant(5, 10);
-                break;
-            case 1: //letterbox
-                sideObject =  new LetterBox(8, 13);
-                break;
-
-        }
-        sideList.add(sideObject);
+        sideList.add(SideObjectFactory.GetInstance().CreateSideObject(random.nextInt(SIDEOBJECT_COUNT)));
     }
     private void GenerateTraffic(){
         switch(player.GetPlayerHealth().GetPlayerState()){
@@ -129,17 +112,7 @@ public class Scene {
             case DEAD:
             break;
         }
-        Vehicle vehicle = null;
-        switch(random.nextInt(TRAFFIC_COUNT)){
-            case 0: //sedan
-                vehicle = new Sedan(15, 80);
-                break;
-            case 1: //van
-                vehicle = new Van(18, 90);
-                break;
-
-        }
-        trafficList.add(vehicle);
+        trafficList.add(VehicleFactory.GetInstance().CreateVehicle(random.nextInt(TRAFFIC_COUNT)));
     }
     private void DisplaySideObjects(){
         System.out.println("<<<<< SIDEOBJECTS >>>>>");
